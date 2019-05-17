@@ -19,10 +19,10 @@ async function getToken() {
     method: 'POST',
     url: 'https://checkout.sandbox.bka.sh/v1.2.0-beta/checkout/token/grant',
     headers: {
-      password: 'hWD@8vtzw0',
+      password: 'sandboxTestPassword',
       username: 'sandboxTestUser'
     },
-    json: { app_key: '5tunt4masn6pv2hnvte1sb5n3j', app_secret: '1vggbqd4hqk9g96o9rrrp2jftvek578v7d2bnerim12a87dbrrka' }
+    json: { app_key: 'sandboxAppKay', app_secret: 'sandboxAppSecret' }
   };
 
   const tokenObj = await rp(options);
@@ -37,7 +37,7 @@ app.post('/createRequest', async (req, res) => {
     method: 'POST',
     url: 'https://checkout.sandbox.bka.sh/v1.2.0-beta/checkout/payment/create',
     headers: {
-      'x-app-key': '5tunt4masn6pv2hnvte1sb5n3j',
+      'x-app-key': 'sandboxAppKay',
       authorization: token
     },
     json: reqBody
@@ -55,7 +55,7 @@ app.post('/executeRequest', async (req, res) => {
     method: 'POST',
     url: `https://checkout.sandbox.bka.sh/v1.2.0-beta/checkout/payment/execute/${paymentID}`,
     headers: {
-      'x-app-key': '5tunt4masn6pv2hnvte1sb5n3j',
+      'x-app-key': 'sandboxAppKay',
       authorization: token
     }
   };
