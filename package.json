@@ -1,0 +1,31 @@
+{
+  "name": "bkash-payment",
+  "version": "0.0.1",
+  "description": "Bkash payment api integration",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bilashcse/bKash-payment.git"
+  },
+  "keywords": [
+    "bkash"
+  ],
+  "author": "Bilash",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bilashcse/bKash-payment/issues"
+  },
+  "homepage": "https://github.com/bilashcse/bKash-payment#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.0",
+    "morgan": "^1.9.1",
+    "morgan-body": "^2.4.7",
+    "nodemon": "^1.19.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4"
+  }
+}

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>bKash Gateway</title>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="https://scripts.sandbox.bka.sh/versions/1.2.0-beta/checkout/bKash-checkout-sandbox.js"></script>
+</head>
+
+<body>
+
+  <button id="bKash_button" style="display: none">Pay With bKash</button>
+  <script>
+    $(window).on("load", function () {
+          var paymentID = null;
+
+          bKash.init({
+              paymentMode: 'checkout', //fixed value ‘checkout’
+              paymentRequest: {
+                amount: '100.50', //max two decimal points allowed 
+                intent: 'sale',
+                currency: 'BDT',
+                merchantInvoiceNumber: '123456'
+              },
+
+              createRequest: function (request) {
+                $.ajax({
+                  url: '/createRequest',
+                  type: 'POST',
+                  contentType: 'application/json',
+                  data: JSON.stringify(request),
+                  success: function (data) {
+                    if (data && data.paymentID != null) {
+                      paymentID = data.paymentID;
+                      bKash.create().onSuccess(
+                        data
+                      );
+                    } else {
+                      bKash.create().onError();
+                    }
+                  },
+                  error: function (e) {
+                    bKash.create().onError();
+                  }
+                });
+              },
+
+              executeRequestOnAuthorization: function () {
+                $.ajax({
+                  url: '/executeRequest',
+                  type: 'POST',
+                  contentType: 'application/json',
+                  data: JSON.stringify({
+                    "paymentID": paymentID
+                  }),
+                  success: function (data) {
+                    if (data && data.paymentID != null) {
+                      //Merchant’s success
+                    } else {
+                      bKash.execute().onError();
+                    }
+                  },
+                  error: function (e) {
+                    bKash.execute().onError();
+                  }
+                });
+              },
+              });
+            $("#bKash_button").click();
+          });
+  </script>
+</body>
+</html>
